@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import express from "express"
 import morgan from "morgan"
+import { AppDataSource } from "./data-source"
 import { v1Router } from "./v1/router"
 
 dotenv.config()
@@ -17,6 +18,14 @@ app.get("/", (req, res) => {
   res.status(200).json({ body: "hello" })
 })
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`)
-})
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Database connected")
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    process.exit(1)
+  })
