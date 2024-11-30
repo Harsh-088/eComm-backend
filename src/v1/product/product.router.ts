@@ -1,7 +1,7 @@
 import express from "express"
+import { asyncErrorHandler } from "../../utils/errorHandler"
+import { ProductController } from "./product.controller"
 
-export const Router = express.Router()
+export const productRouter = express.Router()
 
-Router.get("/find-all", (req, res) => {
-  res.status(200).json({ message: "Product 4" })
-})
+productRouter.get("/products", asyncErrorHandler(ProductController.getProducts))
