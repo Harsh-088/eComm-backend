@@ -1,0 +1,13 @@
+GET http://localhost:3000/v1/products HTTP/1.1
+
+###
+# Cart
+GET http://localhost:3000/v1/cart HTTP/1.1
+
+###
+POST http://localhost:3000/v1/add-to-cart HTTP/1.1
+content-type: application/json
+
+{
+    "productId" : "674afcb023c3186e008c39d7"
+}
