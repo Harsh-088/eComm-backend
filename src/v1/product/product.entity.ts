@@ -11,6 +11,9 @@ export class Product {
   @Column("varchar", { length: 255 })
   description?: string
 
+  @Column("varchar", { length: 255 })
+  tag?: string
+
   @Column("double")
   rate?: number
 }

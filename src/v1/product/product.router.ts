@@ -5,3 +5,4 @@ import { ProductController } from "./product.controller"
 export const productRouter = express.Router()
 
 productRouter.get("/products", asyncErrorHandler(ProductController.getProducts))
+productRouter.post("/product", asyncErrorHandler(ProductController.addProduct))

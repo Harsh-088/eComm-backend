@@ -1,6 +1,17 @@
 GET http://localhost:3000/v1/products HTTP/1.1
 
 ###
+POST http://localhost:3000/v1/product HTTP/1.1
+content-type: application/json
+
+{
+    "name" : "Product 3",
+    "description" : "Product 3 desc",
+    "tag" : "Men",
+    "rate" : 122
+}
+
+###
 # Cart
 GET http://localhost:3000/v1/cart HTTP/1.1
 
