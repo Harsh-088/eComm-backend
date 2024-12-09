@@ -1,6 +1,7 @@
 import bcrypt, { compare } from "bcrypt"
 import { Request, Response } from "express"
 import { sign } from "jsonwebtoken"
+import { ObjectId } from "mongodb"
 import { AppDataSource } from "../../data-source"
 import { asyncErrorHandler } from "../../utils/errorHandler"
 import { User } from "./user.entity"
@@ -10,6 +11,7 @@ export class UserController {
     const name: string | undefined = req.body.name
     const email: string | undefined = req.body.email
     const password: string | undefined = req.body.password
+    const address: string | undefined = req.body.address
 
     if (!name || !email || !password) {
       return res.status(406).json({ message: "Missing required values!" })
@@ -40,6 +42,7 @@ export class UserController {
       name: name,
       email: email,
       password: hashedPassword,
+      address: address,
       createdOn: new Date().toISOString()
     })
 
@@ -84,5 +87,21 @@ export class UserController {
     })
 
     return res.status(202).json({ message: "Login Successfull!", token: token })
+  })
+
+  static getUser = asyncErrorHandler(async (req: Request, res: Response) => {
+    const userId: string | undefined = req.headers.userId as string | undefined
+
+    const userRepo = AppDataSource.getMongoRepository(User)
+
+    const user = await userRepo.findOne({
+      where: {
+        _id: new ObjectId(userId)
+      }
+    })
+
+    return res
+      .status(200)
+      .json({ message: "User fetched successfully!", data: user })
   })
 }
