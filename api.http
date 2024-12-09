@@ -13,11 +13,14 @@ content-type: application/json
 
 ###
 # Cart
-GET https://ecomm-backend-production-55a3.up.railway.app/v1/cart HTTP/1.1
+GET http://localhost:3000/v1/cart HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM3NDQ3MTMsImV4cCI6MTczMzc0ODMxM30.uETvIPt1e3n-OqNDeBHF_5J-dS7eJE_AfwaRzm7LMkQ
 
 ###
-POST https://ecomm-backend-production-55a3.up.railway.app/v1/add-to-cart HTTP/1.1
+POST http://localhost:3000/v1/add-to-cart HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM3NDQ3MTMsImV4cCI6MTczMzc0ODMxM30.uETvIPt1e3n-OqNDeBHF_5J-dS7eJE_AfwaRzm7LMkQ
 
 {
     "productId" : "674afcb023c3186e008c39d7"

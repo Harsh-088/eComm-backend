@@ -1,13 +1,33 @@
-import { Entity, ObjectId, ObjectIdColumn } from "typeorm"
+import {
+  CreateDateColumn,
+  Entity,
+  ObjectId,
+  ObjectIdColumn,
+  UpdateDateColumn
+} from "typeorm"
 import { Column } from "typeorm/decorator/columns/Column"
+
+type CartProduct = {
+  productId: ObjectId
+  quantity: number
+}
 
 @Entity({ name: "cart" })
 export class Cart {
   @ObjectIdColumn()
   _id!: ObjectId
 
-  @Column("varchar", { length: 255 })
-  productId?: string
+  @Column("bytes")
+  userId!: ObjectId
+
+  @Column("array")
+  products!: CartProduct[]
+
+  @CreateDateColumn({ type: "timestamp" })
+  createdAt!: Date
+
+  @UpdateDateColumn({ type: "timestamp", nullable: true })
+  updatedAt?: Date
 
   //   @Column()
   //   product?: Product

@@ -6,11 +6,14 @@ import { Cart } from "./cart.entity"
 
 export class CartController {
   static async addToCart(req: Request, res: Response) {
-    const productId = req.body.productId
+    const userId: string = req.headers.userId as string
+
+    const productId: string | undefined = req.body.productId
 
     if (!productId) {
       return res.status(400).json({ message: "Missing product Id!" })
     }
+
     const product = await AppDataSource.getMongoRepository(Product).findOneBy({
       _id: new ObjectId(productId)
     })
@@ -21,45 +24,73 @@ export class CartController {
         .json({ message: "No product was found with given ID!" })
     }
 
-    const cart = new Cart()
-    cart.productId = productId
-    // cart.product = product
+    const cartRepo = AppDataSource.getMongoRepository(Cart)
 
-    const result = await AppDataSource.getMongoRepository(Cart).save(cart)
+    let cart = await cartRepo.findOneBy({ userId: new ObjectId(userId) })
+
+    if (!cart) {
+      cart = new Cart()
+      cart.userId = new ObjectId(userId)
+      cart.products = []
+    }
+
+    const cartProd = cart.products.find(
+      prod => prod.productId.toString() == productId
+    )
+
+    if (cartProd) {
+      return res
+        .status(406)
+        .json({ message: "Specified product already exists in cart!" })
+    }
+
+    const newCartProd = { productId: new ObjectId(productId), quantity: 1 }
+    cart.products.push(newCartProd)
+
+    await cartRepo.save(cart)
+
     return res.status(200).json({ message: "Product added to cart!" })
   }
 
   static async getCart(req: Request, res: Response) {
-    AppDataSource.getMongoRepository(Cart)
-      .find()
-      .then(async cart => {
-        var result: Product[] = []
+    const userId = req.headers.userId as string
 
-        for (let index = 0; index < cart.length; index++) {
-          const cartItem = cart[index]
+    const cartRepo = AppDataSource.getMongoRepository(Cart)
 
-          await AppDataSource.getMongoRepository(Product)
-            .findOneBy({
-              _id: new ObjectId(cartItem.productId)
-            })
-            .then(product => {
-              if (product) {
-                result[index] = product
-              }
-            })
-            .catch(err => {
-              return res
-                .status(400)
-                .json({ message: "Something went wrong!", error: err })
-            })
-        }
+    const cart = await cartRepo.findOneBy({ userId: new ObjectId(userId) })
+    console.log(cart)
 
-        return res.status(200).json({ message: "Success", cart: result })
-      })
-      .catch(err => {
-        return res
-          .status(400)
-          .json({ message: "Something went wrong!", error: err })
-      })
+    if (!cart) {
+      return res
+        .status(200)
+        .json({ message: "Cart fetched successfull!", data: [] })
+    }
+
+    const cartItems = []
+    const prodIds = cart.products.map(e => e.productId)
+
+    const cartProds = await AppDataSource.getMongoRepository(Product).find({
+      where: { _id: { $in: prodIds } }
+    })
+
+    console.log(cartProds)
+
+    for (let index = 0; index < cartProds.length; index++) {
+      const product = cartProds[index]
+      const cartItem = {
+        productName: product.name,
+        productDes: product.description,
+        productRate: product.rate,
+        productTag: product.tag,
+        productId: product._id,
+        quantity: cart.products.find(
+          cartProd => cartProd.productId == product._id
+        )?.quantity
+      }
+
+      cartItems.push(cartItem)
+    }
+
+    return res.status(200).json({ message: "Successfull!", data: cartItems })
   }
 }
