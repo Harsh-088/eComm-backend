@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { ObjectId } from "mongodb"
 import { AppDataSource } from "../../data-source"
 import { Product } from "../product/product.entity"
-import { Cart } from "./cart.entity"
+import { Cart, CartProduct } from "./cart.entity"
 
 export class CartController {
   static async addToCart(req: Request, res: Response) {
@@ -44,7 +44,12 @@ export class CartController {
         .json({ message: "Specified product already exists in cart!" })
     }
 
-    const newCartProd = { productId: new ObjectId(productId), quantity: 1 }
+    // const newCartProd = { productId: new ObjectId(productId), quantity: 1 }
+    const newCartProd = new CartProduct()
+
+    newCartProd.productId = new ObjectId(productId)
+    newCartProd.quantity = 1
+
     cart.products.push(newCartProd)
 
     await cartRepo.save(cart)
@@ -58,7 +63,6 @@ export class CartController {
     const cartRepo = AppDataSource.getMongoRepository(Cart)
 
     const cart = await cartRepo.findOneBy({ userId: new ObjectId(userId) })
-    console.log(cart)
 
     if (!cart) {
       return res
@@ -72,8 +76,6 @@ export class CartController {
     const cartProds = await AppDataSource.getMongoRepository(Product).find({
       where: { _id: { $in: prodIds } }
     })
-
-    console.log(cartProds)
 
     for (let index = 0; index < cartProds.length; index++) {
       const product = cartProds[index]
