@@ -87,7 +87,7 @@ export class CartController {
         productTag: product.tag,
         productId: product._id,
         quantity: cart.products.find(
-          cartProd => cartProd.productId == product._id
+          cartProd => cartProd.productId.toString() == product._id.toString()
         )?.quantity
       }
 
@@ -126,4 +126,55 @@ export class CartController {
       return res.status(200).json({ message: "Success" })
     }
   )
+
+  static updateItem = asyncErrorHandler(async (req: Request, res: Response) => {
+    const userId = req.headers.userId as string
+    const productId: string | undefined = req.body.productId
+    const quantity: number | undefined = req.body.quantity
+
+    if (!productId || !quantity) {
+      return res.status(400).json({
+        message: "Missing required values!",
+        values: { productId: productId, quantity: quantity }
+      })
+    }
+
+    if (quantity < 0) {
+      return res.status(400).json({
+        message: "Quantity can not be less or equal to zero!",
+        values: { productId: productId, quantity: quantity }
+      })
+    }
+
+    const cartRepo = AppDataSource.getMongoRepository(Cart)
+
+    const cart = await cartRepo.findOneBy({ userId: new ObjectId(userId) })
+
+    if (!cart) {
+      return res.status(400).json({ message: "User cart is empty!" })
+    }
+
+    const product = cart.products.find(
+      prod => prod.productId.toString() === productId
+    )
+
+    if (!product) {
+      return res
+        .status(400)
+        .json({ message: "Requested product does not exists in cart!" })
+    }
+
+    product.quantity = quantity
+
+    cart.products = cart.products.filter(
+      prod => prod.productId.toString() !== productId
+    )
+
+    cart.products.push(product)
+    const updatedCart = await cartRepo.save(cart)
+
+    return res
+      .status(200)
+      .json({ message: "Update Successfull!", data: updatedCart })
+  })
 }

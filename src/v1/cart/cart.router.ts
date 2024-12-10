@@ -6,5 +6,5 @@ export const cartRouter = express.Router()
 
 cartRouter.get("/cart", asyncErrorHandler(CartController.getCart))
 cartRouter.post("/add-to-cart", asyncErrorHandler(CartController.addToCart))
-// cartRouter.put("/remove-cart-item", CartController.delCartItem)
+cartRouter.put("/update-cart-item", CartController.updateItem)
 cartRouter.post("/remove-cart-item", CartController.delCartItem)
