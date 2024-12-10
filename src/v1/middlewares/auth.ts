@@ -3,6 +3,9 @@ import { verify } from "jsonwebtoken"
 import { asyncErrorHandler } from "../../utils/errorHandler"
 
 export class Auth {
+  /**
+   * middleware to only authentic users to process forward
+   */
   static authenticated = asyncErrorHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       try {

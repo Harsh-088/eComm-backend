@@ -15,12 +15,21 @@ content-type: application/json
 # Cart
 GET http://localhost:3000/v1/cart HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM3NDQ3MTMsImV4cCI6MTczMzc0ODMxM30.uETvIPt1e3n-OqNDeBHF_5J-dS7eJE_AfwaRzm7LMkQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM4MTE3NzAsImV4cCI6MTczMzgxNTM3MH0.8u_es0zbxIjLwY4xBqL19eLUJD1OUVf9A3fLZUw3PmE
 
 ###
 POST http://localhost:3000/v1/add-to-cart HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM3NDQ3MTMsImV4cCI6MTczMzc0ODMxM30.uETvIPt1e3n-OqNDeBHF_5J-dS7eJE_AfwaRzm7LMkQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM4MDgxMTEsImV4cCI6MTczMzgxMTcxMX0.kFO7QvH197HqOjtHWdvOZF0fc8f7EcYr8IpMwQqhJ2U
+
+{
+    "productId" : "674da0949fa81a09953a8cb5"
+}
+
+###
+POST http://localhost:3000/v1/remove-cart-item HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM4MTE3NzAsImV4cCI6MTczMzgxNTM3MH0.8u_es0zbxIjLwY4xBqL19eLUJD1OUVf9A3fLZUw3PmE
 
 {
     "productId" : "674afcb023c3186e008c39d7"

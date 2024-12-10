@@ -1,6 +1,7 @@
 import { Request, Response } from "express"
 import { ObjectId } from "mongodb"
 import { AppDataSource } from "../../data-source"
+import { asyncErrorHandler } from "../../utils/errorHandler"
 import { Product } from "../product/product.entity"
 import { Cart, CartProduct } from "./cart.entity"
 
@@ -95,4 +96,34 @@ export class CartController {
 
     return res.status(200).json({ message: "Successfull!", data: cartItems })
   }
+
+  static delCartItem = asyncErrorHandler(
+    async (req: Request, res: Response) => {
+      const userId = req.headers.userId as string
+      const productId: string | undefined = req.body.productId
+
+      if (!productId) {
+        return res.status(400).json({ message: "Product ID missing!" })
+      }
+
+      const cartRepo = AppDataSource.getMongoRepository(Cart)
+
+      const cart = await cartRepo.findOneBy({ userId: new ObjectId(userId) })
+
+      if (!cart) {
+        return res.status(400).json({ message: "User cart is empty!" })
+      }
+
+      const cartProd = cart.products.filter(
+        prod => prod.productId.toString() !== productId
+      )
+      console.log(cartProd)
+
+      cart.products = cartProd
+      console.log(cart)
+      await cartRepo.save(cart)
+
+      return res.status(200).json({ message: "Success" })
+    }
+  )
 }
