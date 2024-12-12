@@ -11,9 +11,10 @@ export const fileUploader = async (
       accessKeyId: process.env.AWS_ACCESS_KEY_ID as string
     }
   })
+  const fileExt = file.mimetype.split("/")[1]
   const params = {
     Bucket: process.env.S3_BUCKET as string,
-    Key: `thumbnails/${fileName}`,
+    Key: `thumbnails/${fileName}.${fileExt}`,
     Body: file.buffer,
     ContentType: file.mimetype
     // ACL: "public-read"
