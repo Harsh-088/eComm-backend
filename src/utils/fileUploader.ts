@@ -16,8 +16,8 @@ export const fileUploader = async (
     Bucket: process.env.S3_BUCKET as string,
     Key: `thumbnails/${fileName}.${fileExt}`,
     Body: file.buffer,
-    ContentType: file.mimetype
-    // ACL: "public-read"
+    ContentType: file.mimetype,
+    ACL: "public-read"
   }
   const res = await client.upload(params).promise()
 
