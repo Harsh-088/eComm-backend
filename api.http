@@ -15,7 +15,7 @@ content-type: application/json
 # Cart
 GET http://localhost:3000/v1/cart HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM4MTc2ODAsImV4cCI6MTczMzgyMTI4MH0.NHSLlg2LXVo6X49xjCICTC-yMfhJveyO_ROo7Y_eHUg
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM4MTc2ODAsImV4cCI6MTczMzgyMTI4MH0.NHSLlg2LXVo6X49xjCICTC-yMfhJveyO_ROo7Y_eHUg
 
 ###
 POST http://localhost:3000/v1/add-to-cart HTTP/1.1
@@ -47,13 +47,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZ
 
 ###
 # User
-POST http://localhost:3000/v1/signup HTTP/1.1
+POST https://ecomm-backend-production-55a3.up.railway.app/v1/signup HTTP/1.1
 content-type: application/json
 
 {
-    "name" : "Name",
-    "email" : "Email",
-    "password" : "password"
+    "name" : "Name 2",
+    "email" : "Email2.0",
+    "password" : "password2"
 }
 
 ###
@@ -70,3 +70,51 @@ content-type: application/json
 GET http://localhost:3000/v1/user HTTP/1.1
 Content-Type: application/json
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM3MjY4MTYsImV4cCI6MTczMzczMDQxNn0.AXYUHN0oFaxDWNoxnw8VSEk_EL8YK3On6ERUAucvxVs
+
+###
+GET http://localhost:3000/v1/orders HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzM5ODExODUsImV4cCI6MTczMzk4NDc4NX0.wG_xk7Qum7f9ljI5Kaom7fhSfc86vY0VSkxP7eaOsWQ
+
+###
+POST http://localhost:3000/v1/checkout-2 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyMDU3NTUsImV4cCI6MTczNTIwOTM1NX0.gN_XlRE_prDphbp2FPXp1FXbszupKiotntHrMoeOxMg
+
+{
+    "products" : [
+        {
+            "productId" : "674da0949fa81a09953a8cb5",
+            "quantity" : 2
+        }
+    ]
+}
+
+###
+POST http://localhost:3000/v1/whishlist/add-product HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyMTA3NTksImV4cCI6MTczNTIxNDM1OX0.e6f9H0qTbGHbdmuLtPj2GjPTLwpDHkwFWRgjqurCD_I
+
+{
+    "productId" : "674da0949fa81a09953a8cb5"
+}
+
+###
+
+GET http://localhost:3000/v1/whishlists HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyMDkzNzcsImV4cCI6MTczNTIxMjk3N30.07I5K8EyK_rQnXXAo0yQQg5llWQuC6elvLnUJ6cRglc
+
+# {
+#     "productId" : "674da0949fa81a09953a8cb5"
+# }
+
+###
+
+POST http://localhost:3000/v1/whishlist/remove-product HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyMDkzNzcsImV4cCI6MTczNTIxMjk3N30.07I5K8EyK_rQnXXAo0yQQg5llWQuC6elvLnUJ6cRglc
+
+{
+    "productId" : "674da0949fa81a09953a8cb5"
+}
