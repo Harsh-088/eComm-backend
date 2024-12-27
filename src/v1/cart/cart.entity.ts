@@ -1,11 +1,6 @@
-import {
-  CreateDateColumn,
-  Entity,
-  ObjectId,
-  ObjectIdColumn,
-  UpdateDateColumn
-} from "typeorm"
+import { Entity, ObjectId, ObjectIdColumn } from "typeorm"
 import { Column } from "typeorm/decorator/columns/Column"
+import { DBDataModal } from "../../core/abstract"
 
 // type CartProduct = {
 //   productId: ObjectId
@@ -21,7 +16,7 @@ export class CartProduct {
 }
 
 @Entity({ name: "cart" })
-export class Cart {
+export class Cart extends DBDataModal {
   @ObjectIdColumn()
   _id!: ObjectId
 
@@ -31,9 +26,9 @@ export class Cart {
   @Column("array")
   products!: CartProduct[]
 
-  @CreateDateColumn({ type: "timestamp" })
-  createdAt!: Date
+  // @CreateDateColumn({ type: "timestamp" })
+  // createdAt!: Date
 
-  @UpdateDateColumn({ type: "timestamp", nullable: true })
-  updatedAt?: Date
+  // @UpdateDateColumn({ type: "timestamp", nullable: true })
+  // updatedAt?: Date
 }

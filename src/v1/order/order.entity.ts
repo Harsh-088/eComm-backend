@@ -1,15 +1,9 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ObjectId,
-  ObjectIdColumn,
-  UpdateDateColumn
-} from "typeorm"
+import { Column, Entity, ObjectId, ObjectIdColumn } from "typeorm"
+import { DBDataModal } from "../../core/abstract"
 import { Product } from "../product/product.entity"
 
 @Entity({ name: "order" })
-export class Order {
+export class Order extends DBDataModal {
   @ObjectIdColumn()
   _id!: ObjectId
 
@@ -37,9 +31,9 @@ export class Order {
   @Column("array")
   products!: Product[]
 
-  @CreateDateColumn({ type: "timestamp" })
-  createdAt!: Date
+  // @CreateDateColumn({ type: "timestamp" })
+  // createdAt!: Date
 
-  @UpdateDateColumn({ type: "timestamp", nullable: true })
-  updatedAt?: Date
+  // @UpdateDateColumn({ type: "timestamp", nullable: true })
+  // updatedAt?: Date
 }

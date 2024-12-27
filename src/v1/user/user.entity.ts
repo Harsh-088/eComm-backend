@@ -1,14 +1,8 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ObjectId,
-  ObjectIdColumn,
-  UpdateDateColumn
-} from "typeorm"
+import { Column, Entity, ObjectId, ObjectIdColumn } from "typeorm"
+import { DBDataModal } from "../../core/abstract"
 
 @Entity({ name: "user" })
-export class User {
+export class User extends DBDataModal {
   @ObjectIdColumn()
   _id!: ObjectId
 
@@ -27,9 +21,9 @@ export class User {
   @Column("timestamp")
   createdOn!: string
 
-  @CreateDateColumn({ type: "timestamp" })
-  createdAt!: Date
+  // @CreateDateColumn({ type: "timestamp" })
+  // createdAt!: Date
 
-  @UpdateDateColumn({ type: "timestamp", nullable: true })
-  updatedAt?: Date
+  // @UpdateDateColumn({ type: "timestamp", nullable: true })
+  // updatedAt?: Date
 }
