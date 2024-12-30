@@ -46,19 +46,32 @@ export class Whishlistontroller {
   )
   static getWhishlist = asyncErrorHandler(
     async (req: Request, res: Response) => {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10
+      const skip = req.query.skip ? parseInt(req.query.skip as string) : 0
+
       const userId: string = req.headers.userId as string
 
       const whishlistRepo = AppDataSource.getMongoRepository(Whishlist)
 
       const whishlist = await whishlistRepo.find({
-        userId: userId
+        skip: skip,
+        take: limit,
+        where: {
+          userId: userId
+        }
       })
 
       console.log(whishlist)
 
       return res
         .status(200)
-        .json({ message: "Whishlist fetched!", data: whishlist })
+        .json({
+          message: "Whishlist fetched!",
+          data: whishlist,
+          count: whishlist.length,
+          skip: skip,
+          limit: limit
+        })
     }
   )
 }

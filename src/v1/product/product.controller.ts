@@ -4,10 +4,21 @@ import { Product } from "./product.entity"
 
 export class ProductController {
   static async getProducts(req: Request, res: Response) {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10
+    const skip = req.query.skip ? parseInt(req.query.skip as string) : 0
+
     AppDataSource.getMongoRepository(Product)
-      .find()
+      .find({ skip: skip, take: limit })
       .then(products => {
-        return res.status(200).json({ message: "Success!", products: products })
+        return res
+          .status(200)
+          .json({
+            message: "Success!",
+            products: products,
+            count: products.length,
+            skip: skip,
+            limit: limit
+          })
       })
       .catch(err => {
         console.log(err)
@@ -38,12 +49,10 @@ export class ProductController {
       await AppDataSource.getMongoRepository(Product).save(product)
       return res.status(200).json({ message: "Product created!" })
     } catch (error) {
-      return res
-        .status(400)
-        .json({
-          message: "Something went wrong while creating product!",
-          error: error
-        })
+      return res.status(400).json({
+        message: "Something went wrong while creating product!",
+        error: error
+      })
     }
   }
 }

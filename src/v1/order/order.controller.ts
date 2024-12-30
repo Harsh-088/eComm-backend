@@ -8,24 +8,27 @@ import { Order } from "./order.entity"
 
 export class OrderController {
   static getOrders = asyncErrorHandler(async (req: Request, res: Response) => {
+    const limit = req.query.limit ? parseInt(req.query.limit as string) : 10
+    const skip = req.query.skip ? parseInt(req.query.skip as string) : 0
+
     const userId: string = req.headers.userId as string
 
     const orderRepo = AppDataSource.getMongoRepository(Order)
 
     const orders = await orderRepo.find({
+      skip: skip,
+      take: limit,
       where: { userId: new ObjectId(userId) }
     })
 
-    return res.status(200).json({ message: "Successfull!", data: orders })
+    return res.status(200).json({
+      message: "Successfull!",
+      data: orders,
+      count: orders.length,
+      skip: skip,
+      limit: limit
+    })
   })
-
-  // static addOrder2 = asyncErrorHandler(async (req: Request, res: Response) => {
-  //   const products: Array<Product> | undefined = req.body.products
-  //   console.log(req.body)
-  //   console.log(products)
-
-  //   res.status(200).json({ message: "successfully!" })
-  // })
 
   static addOrder = asyncErrorHandler(async (req: Request, res: Response) => {
     const userId: string = req.headers.userId as string

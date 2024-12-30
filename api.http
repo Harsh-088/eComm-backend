@@ -1,4 +1,4 @@
-GET http://localhost:3000/v1/products HTTP/1.1
+GET http://localhost:3000/v1/products?limit=1&skip=1 HTTP/1.1
 
 ###
 POST http://localhost:3000/v1/product HTTP/1.1
@@ -103,7 +103,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZ
 
 GET http://localhost:3000/v1/whishlists HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyMDkzNzcsImV4cCI6MTczNTIxMjk3N30.07I5K8EyK_rQnXXAo0yQQg5llWQuC6elvLnUJ6cRglc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUzZmJjMWM3NTFlMTY0NTc2Yjg5YjciLCJpYXQiOjE3MzUyOTM2NjYsImV4cCI6MTczNTI5NzI2Nn0.1Z_oOKhG6uuBj-Tiwf-aUrvSn-SygBPeO-L0HaFsZHw
 
 # {
 #     "productId" : "674da0949fa81a09953a8cb5"
